@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose"
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 
 const userSchema = new Schema({
  username:{
@@ -40,7 +40,8 @@ const userSchema = new Schema({
   },
 
   orders:[{
-
+    type: mongoose.Types.ObjectId,
+    ref: "Order",
   }],
 }, {
     timestamps: true,

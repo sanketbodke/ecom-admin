@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const productSchema = new Schema({
+const orderSchema = new Schema({
   userId:{
     type: mongoose.Types.ObjectId,
     ref: "user",
@@ -11,4 +11,4 @@ const productSchema = new Schema({
   },
 }, {timestamps: true})
 
-export const product = mongoose.model("product", productSchema)
+export const Order = mongoose.model("Order", orderSchema)
