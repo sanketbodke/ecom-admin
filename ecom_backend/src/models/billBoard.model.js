@@ -1,6 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const billBoardSchema = new Schema({
+  coverImage:{
+    type: String,
+  },
   label:{
     type: String,
     required: true,
