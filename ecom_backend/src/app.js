@@ -23,6 +23,7 @@ import userRoute from "./routes/user.route.js";
 import billBoardRoute from "./routes/billBoard.route.js";
 import colorRoute from "./routes/color.route.js";
 import sizeRoute from "./routes/size.route.js";
+import categoryRoute from "./routes/category.route.js";
 
 // routes declaration
 
@@ -30,5 +31,6 @@ app.use("/api/v1/users/", userRoute);
 app.use("/api/v1/billBoard/", billBoardRoute);
 app.use("/api/v1/color/", colorRoute)
 app.use("/api/v1/size/", sizeRoute)
+app.use("/api/v1/category/", categoryRoute)
 
 export { app }
