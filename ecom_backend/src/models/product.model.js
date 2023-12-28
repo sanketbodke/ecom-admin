@@ -12,21 +12,27 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  image:{
+  productImage:{
     type: String,
     required: true,
   },
   category:{
-    type: mongoose.Types.ObjectId,
-    ref: "category",
+    type: String,
+    required: true
+    // type: mongoose.Types.ObjectId,
+    // ref: "category",
   },
   size:{
-    type: mongoose.Types.ObjectId,
-    ref: "size",
+    type: String,
+    required: true
+    // type: mongoose.Types.ObjectId,
+    // ref: "size",
   },
   color:{
-    type: mongoose.Types.ObjectId,
-    ref: "color",
+    type: String,
+    required: true
+    // type: mongoose.Types.ObjectId,
+    // ref: "color",
   },
 }, {timestamps: true})
 
