@@ -4,13 +4,7 @@ import { addProduct } from "../controllers/product.controller.js";
 
 const router = Router()
 
-router.route("/add").post(
-  upload.fields([
-    {
-      name: "productImage",
-      maxCount: 1,
-    },
-  ]),
+router.route("/new").post(
   addProduct
 );
 export default router

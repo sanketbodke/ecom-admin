@@ -27,22 +27,6 @@ const addProduct = asyncHandler(async (req,resp)=> {
     throw new ApiError(409, "Product already exists")
   }
 
-  // check product image
-
-  const productImageLocalPath = req.files?.productImage?.[0]?.path;
-
-  if(!productImageLocalPath){
-    throw new ApiError(400, "Product Image is Required")
-  }
-
-  // upload on cloudinary
-
-  const productImage = await uploadOnCloudinary(productImageLocalPath)
-
-  if(!productImage){
-    throw new ApiError(400, "Product Image is Required")
-  }
-
   // create product object
 
   const createdProduct = await product.create({
@@ -52,7 +36,7 @@ const addProduct = asyncHandler(async (req,resp)=> {
     category,
     size,
     color,
-    productImage: productImage?.url
+    productImage: "managed by frontend"
   })
 
   // return response
