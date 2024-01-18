@@ -6,13 +6,9 @@ const categorySchema = new Schema({
     required: true,
     unique: true,
   },
-  // content:{
-  //   type: Schema.Types.ObjectId,
-  //   ref: "billboard",
-  // }
   content:{
-    type: String, // billBoard content
-    required: true
+      type: String, // billBoard content
+      required: true
   }
 }, {timestamps: true});
 

@@ -19,20 +19,14 @@ const productSchema = new Schema({
   category:{
     type: String,
     required: true
-    // type: mongoose.Types.ObjectId,
-    // ref: "category",
   },
   size:{
     type: String,
     required: true
-    // type: mongoose.Types.ObjectId,
-    // ref: "size",
   },
   color:{
     type: String,
     required: true
-    // type: mongoose.Types.ObjectId,
-    // ref: "color",
   },
 }, {timestamps: true})
 
