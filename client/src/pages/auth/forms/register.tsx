@@ -2,6 +2,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom"
 import {
     Form,
     FormControl,
@@ -121,6 +122,7 @@ const Register = () => {
                     )}
                 />
                 <Button type="submit">Submit</Button>
+                <Link to="/login">login</Link>
             </form>
         </Form>
     );
