@@ -53,6 +53,18 @@ const generateBillBoard = asyncHandler(async (req,resp)=> {
   )
 })
 
+const getAllBillBoards = asyncHandler(async (req,resp) => {
+  try{
+    const billBoards = await billBoard.find({})
+    return resp.status(200).json(
+        new ApiResponse(200, billBoards, "BillBoards Fetched Successfully")
+    )
+  } catch (error){
+     throw new ApiError(404, "Error to fetch billboard")
+  }
+})
+
 export {
   generateBillBoard,
+  getAllBillBoards
 }
