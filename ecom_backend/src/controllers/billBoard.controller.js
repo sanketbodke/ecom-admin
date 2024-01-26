@@ -47,7 +47,23 @@ const getAllBillBoards = asyncHandler(async (req,resp) => {
   }
 })
 
+const getBillBoardById = asyncHandler(async (req,resp)=> {
+  try{
+    const billBoardId = req.params.id;
+    const billBoardResponse = await billBoard.findById(billBoardId)
+    if(!billBoardResponse){
+      throw new ApiError(404, "BillBoard not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200,billBoardResponse, "BillBoard Fetched Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, "Error to fetch billBoard")
+  }
+})
+
 export {
   generateBillBoard,
-  getAllBillBoards
+  getAllBillBoards,
+  getBillBoardById
 }
