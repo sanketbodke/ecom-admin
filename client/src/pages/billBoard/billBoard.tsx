@@ -56,7 +56,7 @@ const BillBoard: React.FC = () => {
                     data={tableData}
                 />
                 <Api
-                    category={"billBoard"}
+                    category={"BillBoard"}
                     get={"sample.com/all"}
                     post={"sample.com/create"}
                     put={"sample.com/{id}"}

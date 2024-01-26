@@ -55,7 +55,6 @@ const CreateBillBoard: React.FC = () => {
                     `${API_BASE_URL}/api/v1/billBoard/create`,
                     formData
                 )
-            console.log(formData)
         } catch (error){
             console.log(error)
         }
