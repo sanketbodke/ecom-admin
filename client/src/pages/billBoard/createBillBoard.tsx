@@ -93,7 +93,7 @@ const CreateBillBoard: React.FC = () => {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Create</Button>
                 </form>
             </Form>
         </div>

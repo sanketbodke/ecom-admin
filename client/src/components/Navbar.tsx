@@ -9,7 +9,6 @@ const Navbar: React.FC = () => {
                 <h1>store name</h1>
             </div>
             <div className="menuItems flex gap-10 text-sm">
-                <Link to="/">Home</Link>
                 <Link to="/overview">Overview</Link>
                 <Link to="/billBoards">BillBoards</Link>
                 <Link to="/categories">Categories</Link>
