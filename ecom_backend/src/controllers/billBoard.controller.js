@@ -39,7 +39,7 @@ const generateBillBoard = asyncHandler(async (req,resp)=> {
 const getAllBillBoards = asyncHandler(async (req,resp) => {
   try{
     const billBoards = await billBoard.find({})
-    return resp.status(200).json(
+     resp.status(200).json(
         new ApiResponse(200, billBoards, "BillBoards Fetched Successfully")
     )
   } catch (error){
@@ -52,9 +52,9 @@ const getBillBoardById = asyncHandler(async (req,resp)=> {
     const billBoardId = req.params.id;
     const billBoardResponse = await billBoard.findById(billBoardId)
     if(!billBoardResponse){
-      throw new ApiError(404, "BillBoard not found")
+      new ApiError(404, "BillBoard not found")
     }
-    return resp.status(200).json(
+    resp.status(200).json(
         new ApiResponse(200,billBoardResponse, "BillBoard Fetched Successfully")
     )
   }catch (error){
@@ -62,8 +62,23 @@ const getBillBoardById = asyncHandler(async (req,resp)=> {
   }
 })
 
+const updateBillBoard = asyncHandler(async (req,resp)=> {
+  try{
+    const updatedBillBoard = await billBoard.findByIdAndUpdate(
+        req.params.id,
+        req.body, {new: true}
+    );
+    resp.status(200).json(
+        new ApiResponse(200,updatedBillBoard, "BillBoard Update Successfully")
+    )
+  } catch (error){
+    throw new ApiError(404, "Error to Update billBoard")
+  }
+})
+
 export {
   generateBillBoard,
   getAllBillBoards,
-  getBillBoardById
+  getBillBoardById,
+  updateBillBoard
 }
