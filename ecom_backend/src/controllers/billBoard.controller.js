@@ -76,9 +76,21 @@ const updateBillBoard = asyncHandler(async (req,resp)=> {
   }
 })
 
+const deleteBillBoard = asyncHandler(async (req,resp)=> {
+  try{
+    await billBoard.findByIdAndDelete(req.params.id)
+    resp.status(204).json(
+        new ApiResponse(204, "BillBoard Deleted Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, "Error to delete billBoard")
+  }
+})
+
 export {
   generateBillBoard,
   getAllBillBoards,
   getBillBoardById,
-  updateBillBoard
+  updateBillBoard,
+  deleteBillBoard
 }
