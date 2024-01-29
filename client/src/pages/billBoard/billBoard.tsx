@@ -59,10 +59,10 @@ const BillBoard: React.FC = () => {
                 />
                 <Api
                     category={"BillBoard"}
-                    get={"sample.com/all"}
-                    post={"sample.com/create"}
-                    put={"sample.com/{id}"}
-                    remove={"sample.com/{id}"}
+                    get={`${API_BASE_URL}/api/v1/billBoards`}
+                    post={`${API_BASE_URL}/api/v1/billBoards/create`}
+                    put={`${API_BASE_URL}/api/v1/billBoards/{id}/update`}
+                    remove={`${API_BASE_URL}/api/v1/billBoards/{id}/delete`}
                 />
             </div>
         </>
