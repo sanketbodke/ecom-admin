@@ -2,23 +2,26 @@ import React from 'react';
 import { HiDotsHorizontal } from 'react-icons/hi';
 import { Menu, Dropdown, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import {Link} from "react-router-dom";
+import API_BASE_URL from "@/constant.ts";
+import axios from "axios"
 interface TableProps {
     headers: string[];
     data: Record<string, object>[];
 }
 
 const Table: React.FC<TableProps> = ({ headers, data }) => {
-    const handleUpdate = (record) => {
+    const handleUpdate = (record: number) => {
         console.log('Update clicked for:', record);
     };
 
-    const handleDelete = (record) => {
+    const handleDelete = (id: number) => {
         Modal.confirm({
             title: 'Confirm Delete',
             icon: <ExclamationCircleOutlined />,
             content: 'Are you sure you want to delete this record?',
             onOk() {
-                console.log('Delete confirmed for:', record);
+                axios.delete(`${API_BASE_URL}/api/v1/billBoard/${id}/delete`)
             },
             onCancel() {
                 console.log('Delete canceled');
@@ -26,12 +29,12 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
         });
     };
 
-    const menu = (record) => (
+    const menu = (record: object) => (
         <Menu>
-            <Menu.Item key="update" onClick={() => handleUpdate(record)} icon={<EditOutlined />}>
-                <span className="text-sm">Update</span>
+            <Menu.Item key="update" onClick={() => handleUpdate(record.id)} icon={<EditOutlined />}>
+                <Link to={`/billBoards/${record.id}/update`}>Update</Link>
             </Menu.Item>
-            <Menu.Item key="delete" onClick={() => handleDelete(record)} icon={<DeleteOutlined />}>
+            <Menu.Item key="delete" onClick={() => handleDelete(record.id)} icon={<DeleteOutlined />}>
                 <span className="text-sm">Delete</span>
             </Menu.Item>
         </Menu>
@@ -56,11 +59,12 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
             <tbody>
             {data.map((row, rowIndex) => (
                 <tr className="border-b" key={rowIndex}>
-                    {Object.values(row).map((cell, cellIndex) => (
-                        <td key={cellIndex} className="p-2 text-sm">
-                            {cell}
-                        </td>
-                    ))}
+                    <td className="p-2 text-sm">
+                        {row.label}
+                    </td>
+                    <td className="p-2 text-sm">
+                        {row.date}
+                    </td>
                     <td className="cursor-pointer">
                         <Dropdown overlay={() => menu(row)} trigger={['click']}>
                             <HiDotsHorizontal />
@@ -68,6 +72,7 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
                     </td>
                 </tr>
             ))}
+
             </tbody>
         </table>
     );

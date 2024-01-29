@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import UploadWidget from "@/components/UploadWidget.tsx";
 import API_BASE_URL from "@/constant.ts";
 import axios from "axios";
+import Heading from "@/pages/billBoard/heading.tsx";
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -21,7 +22,7 @@ const formSchema = z.object({
     coverImage: z.string()
 });
 
-const CreateBillBoard: React.FC = () => {
+const Create: React.FC = () => {
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -63,8 +64,10 @@ const CreateBillBoard: React.FC = () => {
     return (
         <div className="container mt-4">
             <div className="border-b mb-4 pb-4">
-                <h1 className="text-2xl font-bold">Create billboard</h1>
-                <p className="text-sm text-gray-500">Add a new billboard</p>
+                <Heading
+                    title="Create billboard"
+                    subtitle="Add a new billboard"
+                />
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -99,4 +102,4 @@ const CreateBillBoard: React.FC = () => {
     );
 };
 
-export default CreateBillBoard;
+export default Create;
