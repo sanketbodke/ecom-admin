@@ -6,7 +6,8 @@ import privateRoute from "@/components/PrivateRoute.tsx";
 import home from "@/pages/home.tsx"
 import Navbar from "@/components/Navbar.tsx";
 import billBoard from "@/pages/billBoard/billBoard.tsx";
-import createBillBoard from "@/pages/billBoard/createBillBoard.tsx";
+import createBillBoard from "@/pages/billBoard/create.tsx";
+import update from "@/pages/billBoard/update.tsx";
 const App = () => {
     return (
         <>
@@ -34,6 +35,7 @@ function AppRouter(){
                     <Route index Component={home}></Route>
                     <Route path="/billBoards" Component={billBoard}></Route>
                     <Route path="/billBoards/create" Component={createBillBoard}></Route>
+                    <Route path="/billBoards/:id/update" Component={update}></Route>
                 </Route>
             </Routes>
         </>
