@@ -14,6 +14,8 @@ import UploadWidget from "@/components/UploadWidget.tsx";
 import API_BASE_URL from "@/constant.ts";
 import axios from "axios";
 import Heading from "@/pages/billBoard/heading.tsx";
+import { message } from 'antd';
+import {useNavigate} from "react-router-dom";
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -23,6 +25,8 @@ const formSchema = z.object({
 });
 
 const Create: React.FC = () => {
+    const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate();
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -56,13 +60,22 @@ const Create: React.FC = () => {
                     `${API_BASE_URL}/api/v1/billBoard/create`,
                     formData
                 )
+             navigate("/billBoards")
+             messageApi.open({
+                type: 'success',
+                content: 'BillBoard Created',
+            });
         } catch (error){
-            console.log(error)
+            messageApi.open({
+                type: 'error',
+                content: 'Failed to create BillBoard',
+            });
         }
     };
 
     return (
         <div className="container mt-4">
+            {contextHolder}
             <div className="border-b mb-4 pb-4">
                 <Heading
                     title="Create billboard"

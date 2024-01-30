@@ -5,8 +5,11 @@ import API_BASE_URL from "@/constant.ts";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import Heading from "@/pages/billBoard/heading.tsx";
+import { message } from 'antd';
 
 const Update: React.FC = () => {
+    const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate();
     const {id } = useParams()
     const [billBoard, setBillBoard] = useState({})
     // const navigate = useNavigate()
@@ -29,15 +32,28 @@ const Update: React.FC = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response =
-            await axios.put(
-            `${API_BASE_URL}/api/v1/billBoard/${id}/update`,
-            billBoard)
-        console.log(response)
+        try{
+            await
+                axios.put(
+                `${API_BASE_URL}/api/v1/billBoard/${id}/update`,
+                    billBoard
+                )
+            navigate("/billBoards")
+            messageApi.open({
+                type: 'success',
+                content: 'BillBoard Updated',
+            });
+        }catch (error){
+            messageApi.open({
+                type: 'error',
+                content: 'Update Failed',
+            });
+        }
     }
     return (
         <>
             <div className="container">
+                {contextHolder}
                 <div className="border-b mb-4 mt-4 pb-4">
                     <Heading
                         title="Update billboard"
