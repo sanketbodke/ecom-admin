@@ -25,7 +25,7 @@ app.use("/api/v1/users/", userRoute);
 app.use("/api/v1/billBoard/", billBoardRoute);
 app.use("/api/v1/color/", colorRoute)
 app.use("/api/v1/size/", sizeRoute)
-app.use("/api/v1/category/", categoryRoute)
+app.use("/api/v1/categories/", categoryRoute)
 app.use("/api/v1/product/", productRoute)
 
 export { app }
