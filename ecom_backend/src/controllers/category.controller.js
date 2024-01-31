@@ -68,8 +68,43 @@ const getCategoryById = asyncHandler(async (req,resp)=> {
   }
 })
 
+const updateCategory = asyncHandler(async (req,resp) => {
+  try{
+    const id = req.params.id;
+    const categoryResponse = await category.findByIdAndUpdate(
+        id,
+        req.body, {new: true}
+    )
+    if(!categoryResponse){
+      new ApiError(404, "Category not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, categoryResponse, "Category updated Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, "Category not found")
+  }
+})
+
+const deleteCategory = asyncHandler(async(req,resp)=> {
+  try{
+    const id = req.params.id;
+    const categoryResponse = await category.findByIdAndDelete(id);
+    if(categoryResponse.data == null){
+      new ApiError(404, "Category not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, categoryResponse, "category deleted")
+    )
+  }catch (error){
+    throw new ApiError(404, "Category not found")
+  }
+})
+
 export {
   createCategory,
   getCategories,
-  getCategoryById
+  getCategoryById,
+  updateCategory,
+  deleteCategory
 }
