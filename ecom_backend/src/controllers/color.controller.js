@@ -53,7 +53,23 @@ const getColor = asyncHandler(async (req,resp)=> {
   }
 })
 
+const getColorById = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const response = await color.findById(id);
+    if(!response){
+      new ApiError(404, "Color not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, response, "Color fetched Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, error,"Color not found")
+  }
+})
+
 export {
   addColor,
-  getColor
+  getColor,
+  getColorById,
 }
