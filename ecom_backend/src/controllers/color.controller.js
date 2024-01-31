@@ -39,6 +39,21 @@ const addColor  = asyncHandler(async (req,resp)=> {
 
 })
 
+const getColor = asyncHandler(async (req,resp)=> {
+  try{
+    const colorsData = await color.find({});
+    if(!colorsData){
+      new ApiError(404, "Colors not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, colorsData, "Colors fetched successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, "Colors not found")
+  }
+})
+
 export {
-  addColor
+  addColor,
+  getColor
 }
