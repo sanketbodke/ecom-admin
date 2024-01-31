@@ -37,6 +37,23 @@ const createCategory = asyncHandler(async (req,resp)=> {
   )
 })
 
+const getCategories = asyncHandler(async (req,resp)=> {
+  try{
+    const categoriesData = await category.find({});
+    if(!categoriesData){
+      new ApiError(404, "Categories not found")
+    } else {
+
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, categoriesData, "Categories fetched successfully")
+    )
+  }catch (error){
+    console.log(error)
+  }
+})
+
 export {
   createCategory,
+  getCategories
 }
