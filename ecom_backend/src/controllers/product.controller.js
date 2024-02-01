@@ -1,7 +1,6 @@
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { product } from "../models/product.model.js";
 
 const addProduct = asyncHandler(async (req,resp)=> {
@@ -46,6 +45,73 @@ const addProduct = asyncHandler(async (req,resp)=> {
   )
 })
 
+const getProducts = asyncHandler(async (req,resp)=> {
+  try{
+    const productsResponse = await product.find({});
+    if(!productsResponse){
+      new ApiError(404, "Products not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, productsResponse, "Products fetched Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, error, "Products not found")
+  }
+})
+
+const getProductById = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const productResponse = await product.findById(id);
+    if(!productResponse){
+      new ApiError(404, "Product not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, productResponse, "Product found")
+    )
+  }catch (error){
+    throw new ApiError(404, error, "Product not found")
+  }
+})
+
+const updateProduct = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const productResponse = await product.findByIdAndUpdate(
+        id,
+        req.body, {new: true}
+    )
+    if(!productResponse){
+      new ApiError(404, "Product not found")
+    }
+
+    return resp.status(200).json(
+        new ApiResponse(200, productResponse, "Product fetched successfully")
+    )
+  }catch (error){
+    new ApiError(404, error ,"Error to update product")
+  }
+})
+
+const deleteProduct = asyncHandler(async(req,resp)=> {
+  try{
+    const id = req.params.id;
+    const productResponse = await product.findByIdAndDelete(id);
+    if(!productResponse){
+      new ApiError(404, "Product not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, productResponse, "Product deleted")
+    )
+  }catch (error){
+    throw new ApiError(404,error, "Product not found")
+  }
+})
+
 export {
-  addProduct
+  addProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct
 }
