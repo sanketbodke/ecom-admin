@@ -39,6 +39,72 @@ const addSize  = asyncHandler(async (req,resp)=> {
 
 })
 
+const getSizes = asyncHandler(async (req,resp) => {
+  try{
+    const sizesResponse = await size.find({})
+    if(!sizesResponse){
+      new ApiError(404, "sizes not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, sizesResponse, "sizes fetched successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, error, "Sizes not found")
+  }
+})
+
+const getSizeById = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const sizeResponse = await size.findById(id);
+    if(!sizeResponse){
+      new ApiError(404, "size not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, sizeResponse, "size fetched successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, error,"size not found")
+  }
+})
+
+const updateSize = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const sizeResponse = await size.findByIdAndUpdate(
+        id,
+        req.body,{new: true}
+    )
+    if(!sizeResponse){
+      new ApiError(404, "size not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, sizeResponse, "size updated")
+    )
+  }catch (error){
+    throw new ApiError(404, error,"size not found")
+  }
+})
+
+const deleteSize = asyncHandler(async (req,resp)=> {
+  try{
+    const id = req.params.id;
+    const sizeResponse = await size.findByIdAndDelete(id);
+    if(!sizeResponse){
+      new ApiError(404, "size not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, sizeResponse, "size deleted")
+    )
+  }catch (error){
+    throw new ApiError(404, error,"size not found")
+  }
+})
+
 export {
-  addSize
+  addSize,
+  getSizes,
+  getSizeById,
+  updateSize,
+  deleteSize
 }
