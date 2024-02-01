@@ -68,8 +68,43 @@ const getColorById = asyncHandler(async (req,resp)=> {
   }
 })
 
+const updateColor = asyncHandler(async (req,resp) => {
+  try{
+    const id = req.params.id;
+    const colorResponse = await color.findByIdAndUpdate(
+        id,
+        req.body, {new: true}
+    )
+    if(!colorResponse){
+      new ApiError(404, "Color not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, colorResponse, "Color updated Successfully")
+    )
+  }catch (error){
+    throw new ApiError(404, error,"Color not found")
+  }
+})
+
+const deleteColor = asyncHandler(async(req,resp)=> {
+  try{
+    const id = req.params.id;
+    const colorResponse = await color.findByIdAndDelete(id);
+    if(colorResponse.data == null){
+      new ApiError(404, "Color not found")
+    }
+    return resp.status(200).json(
+        new ApiResponse(200, colorResponse, "Color deleted")
+    )
+  }catch (error){
+    throw new ApiError(404, "Color not found")
+  }
+})
+
 export {
   addColor,
   getColor,
   getColorById,
+  updateColor,
+  deleteColor
 }
