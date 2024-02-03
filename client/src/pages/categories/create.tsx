@@ -32,7 +32,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const Create: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
-    const [billBoard, setBillBoard] = useState<any[]>([]); // Corrected: Initialize as an empty array
+    const [billBoard, setBillBoard] = useState<any[]>([]);
     const navigate = useNavigate();
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
