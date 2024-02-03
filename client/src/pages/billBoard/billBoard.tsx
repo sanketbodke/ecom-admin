@@ -6,7 +6,7 @@ import Table from '@/components/ui/table.tsx';
 import axios from 'axios';
 import API_BASE_URL from "@/constant.ts";
 import Api from "@/components/Api.tsx"
-import Heading from "@/pages/billBoard/heading.tsx";
+import Heading from "@/components/heading.tsx";
 
 const formatDate = (dateString: string): string => {
     const options = { month: 'short', day: 'numeric', year: 'numeric' };

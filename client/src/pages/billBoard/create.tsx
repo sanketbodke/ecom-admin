@@ -13,16 +13,16 @@ import { Input } from "@/components/ui/input"
 import UploadWidget from "@/components/UploadWidget.tsx";
 import API_BASE_URL from "@/constant.ts";
 import axios from "axios";
-import Heading from "@/pages/billBoard/heading.tsx";
+import Heading from "@/components/heading.tsx";
 import { message } from 'antd';
 import {useNavigate} from "react-router-dom";
-
-type FormData = z.infer<typeof formSchema>;
 
 const formSchema = z.object({
     label: z.string(),
     coverImage: z.string()
 });
+
+type FormData = z.infer<typeof formSchema>;
 
 const Create: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
@@ -53,7 +53,7 @@ const Create: React.FC = () => {
         handleChange(name as keyof FormData, value);
     };
 
-    const onSubmit: SubmitHandler<FormData> = async () => {
+    const handleSubmit: SubmitHandler<FormData> = async () => {
         try{
              await
                 axios.post(
@@ -83,7 +83,7 @@ const Create: React.FC = () => {
                 />
             </div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
                     <FormField
                         control={form.control}
                         name="label"
