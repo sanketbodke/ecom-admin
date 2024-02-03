@@ -3,7 +3,7 @@ import { addProduct, getProducts, getProductById, updateProduct, deleteProduct }
 
 const router = Router()
 
-router.route("/new").post(addProduct);
+router.route("/create").post(addProduct);
 router.route("/").get(getProducts);
 router.route("/:id").get(getProductById);
 router.route("/:id/update").put(updateProduct);

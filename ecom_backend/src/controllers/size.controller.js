@@ -43,10 +43,10 @@ const getSizes = asyncHandler(async (req,resp) => {
   try{
     const sizesResponse = await size.find({})
     if(!sizesResponse){
-      new ApiError(404, "sizes not found")
+      new ApiError(404, "size not found")
     }
     return resp.status(200).json(
-        new ApiResponse(200, sizesResponse, "sizes fetched successfully")
+        new ApiResponse(200, sizesResponse, "size fetched successfully")
     )
   }catch (error){
     throw new ApiError(404, error, "Sizes not found")
