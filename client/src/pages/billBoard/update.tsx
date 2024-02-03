@@ -4,7 +4,7 @@ import axios from "axios"
 import API_BASE_URL from "@/constant.ts";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import Heading from "@/pages/billBoard/heading.tsx";
+import Heading from "@/components/heading.tsx";
 import { message } from 'antd';
 
 const Update: React.FC = () => {

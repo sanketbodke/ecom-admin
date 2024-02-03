@@ -25,7 +25,7 @@ const UploadWidget: React.FC = ({ onImageUpload }) => {
                 onClick={() => widgetRef.current.open()}
                 className="bg-white border text-gray-500 hover:bg-white"
             >
-                Upload Image
+                Upload an Image
             </Button>
         </>
     );
