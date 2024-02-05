@@ -7,16 +7,27 @@ import Table from "@/components/ui/table.tsx";
 import Api from "@/components/Api.tsx";
 import axios from "axios";
 import API_BASE_URL from "@/constant.ts";
+import formatDate from "@/utils/dateFormatter.tsx";
 const Product: React.FC = () => {
     const tableHeaders = ['Name', 'Featured', 'Price', 'Category', 'Size', 'Color', 'Date']
+    const objectKey = ['name', 'featured', 'price', 'category', 'size', 'color']
     const [tableData, setTableData] = useState<any[]>([])
 
     useEffect(() => {
         const getProducts = async ()=> {
             try{
                 const products = await axios.get(`${API_BASE_URL}/api/v1/products`)
-                setTableData(products.data.data)
-                console.log(products.data.data)
+                const fetchedTableData = products.data.data.map(item => ({
+                    id: item._id,
+                    name: item.name,
+                    featured: item.featured ? 'true' : 'false',
+                    price: item.price,
+                    category: item.category,
+                    size: item.size,
+                    color: item.color,
+                    date: formatDate(item.createdAt)
+                }))
+                setTableData(fetchedTableData)
             }catch (error){
                 console.log(error)
             }
@@ -42,6 +53,7 @@ const Product: React.FC = () => {
             <Table
                 headers={tableHeaders}
                 data={tableData}
+                objectKey={objectKey}
             />
             <Api
                 category={"Products"}

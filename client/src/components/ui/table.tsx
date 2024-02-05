@@ -8,9 +8,10 @@ import axios from "axios"
 interface TableProps {
     headers: string[];
     data: Record<string, object>[];
+    objectKey: string[];
 }
 
-const Table: React.FC<TableProps> = ({ headers, data }) => {
+const Table: React.FC<TableProps> = ({ headers, data, objectKey }) => {
     const handleUpdate = (record: number) => {
         console.log('Update clicked for:', record);
     };
@@ -59,12 +60,12 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
             <tbody>
             {data.map((row, rowIndex) => (
                 <tr className="border-b" key={rowIndex}>
-                    <td className="p-2 text-sm">
-                        {row.label}
-                    </td>
-                    <td className="p-2 text-sm">
-                        {row.date}
-                    </td>
+                    {objectKey.map((value, key) => (
+                        <td key={key} className="p-2 text-sm">
+                            {row[value]}
+                        </td>
+                    ))}
+                    <td className="p-2 text-sm">{row.date}</td>
                     <td className="cursor-pointer">
                         <Dropdown overlay={() => menu(row)} trigger={['click']}>
                             <HiDotsHorizontal />
@@ -72,6 +73,7 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
                     </td>
                 </tr>
             ))}
+
 
             </tbody>
         </table>

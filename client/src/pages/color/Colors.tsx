@@ -7,17 +7,23 @@ import axios from "axios";
 import API_BASE_URL from "@/constant.ts";
 import Table from "@/components/ui/table.tsx";
 import Api from "@/components/Api.tsx";
-
+import formatDate from "@/utils/dateFormatter.tsx";
 const Colors: React.FC = () => {
     const tableHeaders = ['Name', 'Value', 'Date'];
+    const objectKey = ['name', 'value'];
     const [tableData, setTableData] = useState<any[]>([]);
 
     useEffect(() => {
         const getSizes = async () => {
             try{
                 const colors = await axios.get(`${API_BASE_URL}/api/v1/colors`)
-                setTableData(colors.data.data)
-                console.log(colors.data.data)
+                const fetchedTableData = colors.data.data.map(item => ({
+                    id: item._id,
+                    name: item.name,
+                    value: item.value,
+                    date: formatDate(item.createdAt)
+                }))
+                setTableData(fetchedTableData)
             }catch (error){
                 console.log(error)
             }
@@ -43,10 +49,11 @@ const Colors: React.FC = () => {
             <Table
                 headers={tableHeaders}
                 data={tableData}
+                objectKey={objectKey}
             />
             <Api
                 category={"Sizes"}
-                get={`${API_BASE_URL}/api/v1/color`}
+                get={`${API_BASE_URL}/api/v1/colors`}
                 post={`${API_BASE_URL}/api/v1/color/create`}
                 put={`${API_BASE_URL}/api/v1/color/{id}/update`}
                 remove={`${API_BASE_URL}/api/v1/color/{id}/delete`}

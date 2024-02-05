@@ -7,14 +7,11 @@ import axios from 'axios';
 import API_BASE_URL from "@/constant.ts";
 import Api from "@/components/Api.tsx"
 import Heading from "@/components/heading.tsx";
-
-const formatDate = (dateString: string): string => {
-    const options = { month: 'short', day: 'numeric', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-};
+import formatDate from "@/utils/dateFormatter.tsx";
 
 const BillBoard: React.FC = () => {
     const tableHeaders = ['Label', 'Date'];
+    const objectKey = ['label'];
     const [tableData, setTableData] = useState<any[]>([]);
 
     useEffect(() => {
@@ -56,6 +53,7 @@ const BillBoard: React.FC = () => {
                 <Table
                     headers={tableHeaders}
                     data={tableData}
+                    objectKey={objectKey}
                 />
                 <Api
                     category={"BillBoard"}

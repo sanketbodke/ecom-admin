@@ -7,16 +7,24 @@ import axios from "axios";
 import API_BASE_URL from "@/constant.ts";
 import Table from "@/components/ui/table.tsx";
 import Api from "@/components/Api.tsx";
+import formatDate from "@/utils/dateFormatter.tsx";
 
 const Categories: React.FC = () => {
     const tableHeaders = ['Name', 'Billboard', 'Date'];
+    const objectKey = ['name', 'content']
     const [tableData, setTableData] = useState<any[]>([]);
 
     useEffect(() => {
         const getCategories = async () => {
             try{
                 const categories = await axios.get(`${API_BASE_URL}/api/v1/categories`)
-                setTableData(categories.data.data)
+                const fetchedTableData = categories.data.data.map(item => ({
+                    id: item._id,
+                    name: item.name,
+                    content: item.content,
+                    date: formatDate(item.createdAt)
+                }))
+                setTableData(fetchedTableData)
             }catch (error){
                 console.log(error)
             }
@@ -42,6 +50,7 @@ const Categories: React.FC = () => {
             <Table
                 headers={tableHeaders}
                 data={tableData}
+                objectKey={objectKey}
             />
             <Api
                 category={"Categories"}
