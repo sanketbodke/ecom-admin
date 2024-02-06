@@ -16,7 +16,7 @@ const Update: React.FC = () => {
 
     useEffect(()=> {
         axios
-            .get(`${API_BASE_URL}/api/v1/billBoard/${id}/update`)
+            .get(`${API_BASE_URL}/api/v1/billBoard/${id}`)
             .then((response)=> {
                 setBillBoard(response.data.data)
             })
@@ -74,7 +74,7 @@ const Update: React.FC = () => {
                         alt="cover image"
                         className="w-72 h-60 object-cover"
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Update</Button>
                 </form>
             </div>
         </>
