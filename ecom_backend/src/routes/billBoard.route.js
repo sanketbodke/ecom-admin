@@ -8,7 +8,7 @@ router.route("/create").post(
 )
 
 router.route("/").get(getAllBillBoards);
-router.route("/:id/update").get(getBillBoardById);
+router.route("/:id").get(getBillBoardById);
 router.route("/:id/update").put(updateBillBoard);
 router.route("/:id/delete").delete(deleteBillBoard);
 
