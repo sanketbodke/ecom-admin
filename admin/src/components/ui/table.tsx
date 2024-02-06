@@ -6,12 +6,13 @@ import {Link} from "react-router-dom";
 import API_BASE_URL from "@/constant.ts";
 import axios from "axios"
 interface TableProps {
+    type: string;
     headers: string[];
     data: Record<string, object>[];
     objectKey: string[];
 }
 
-const Table: React.FC<TableProps> = ({ headers, data, objectKey }) => {
+const Table: React.FC<TableProps> = ({type ,headers, data, objectKey }) => {
     const handleUpdate = (record: number) => {
         console.log('Update clicked for:', record);
     };
@@ -22,7 +23,7 @@ const Table: React.FC<TableProps> = ({ headers, data, objectKey }) => {
             icon: <ExclamationCircleOutlined />,
             content: 'Are you sure you want to delete this record?',
             onOk() {
-                axios.delete(`${API_BASE_URL}/api/v1/billBoard/${id}/delete`)
+                axios.delete(`${API_BASE_URL}/api/v1/${type}/${id}/delete`)
             },
             onCancel() {
                 console.log('Delete canceled');
@@ -33,7 +34,7 @@ const Table: React.FC<TableProps> = ({ headers, data, objectKey }) => {
     const menu = (record: object) => (
         <Menu>
             <Menu.Item key="update" onClick={() => handleUpdate(record.id)} icon={<EditOutlined />}>
-                <Link to={`/billBoards/${record.id}/update`}>Update</Link>
+                <Link to={`/${type}/${record.id}/update`}>Update</Link>
             </Menu.Item>
             <Menu.Item key="delete" onClick={() => handleDelete(record.id)} icon={<DeleteOutlined />}>
                 <span className="text-sm">Delete</span>

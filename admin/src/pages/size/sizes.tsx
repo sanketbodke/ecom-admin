@@ -48,6 +48,7 @@ const Sizes: React.FC = () => {
                 <Input placeholder="Search" />
             </div>
             <Table
+                type="sizes"
                 headers={tableHeaders}
                 data={tableData}
                 objectKey={objectKey}
