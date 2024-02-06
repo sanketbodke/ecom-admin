@@ -48,6 +48,7 @@ const Categories: React.FC = () => {
                 <Input placeholder="Search"/>
             </div>
             <Table
+                type="categories"
                 headers={tableHeaders}
                 data={tableData}
                 objectKey={objectKey}

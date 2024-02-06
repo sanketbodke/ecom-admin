@@ -47,6 +47,7 @@ const Colors: React.FC = () => {
                 <Input placeholder="Search"/>
             </div>
             <Table
+                type="colors"
                 headers={tableHeaders}
                 data={tableData}
                 objectKey={objectKey}

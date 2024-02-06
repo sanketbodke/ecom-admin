@@ -51,6 +51,7 @@ const BillBoard: React.FC = () => {
                     <Input placeholder="Search" />
                 </div>
                 <Table
+                    type="billBoard"
                     headers={tableHeaders}
                     data={tableData}
                     objectKey={objectKey}

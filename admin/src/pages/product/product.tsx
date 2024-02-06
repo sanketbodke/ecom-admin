@@ -51,6 +51,7 @@ const Product: React.FC = () => {
                 <Input placeholder="Search" />
             </div>
             <Table
+                type="products"
                 headers={tableHeaders}
                 data={tableData}
                 objectKey={objectKey}
