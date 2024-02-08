@@ -108,10 +108,29 @@ const deleteProduct = asyncHandler(async(req,resp)=> {
   }
 })
 
+const getProductByCategory = asyncHandler(async (req,resp) => {
+  try{
+    const category = req.params.category;
+
+    const productResponse = await product.find({category})
+
+    if(!productResponse){
+      new ApiError(404, "Product not found")
+    }
+
+    return resp.status(200).json(
+        new ApiResponse(200, productResponse, "Product deleted")
+    )
+  }catch (error){
+    throw new ApiError(404, error, "Product not found")
+  }
+})
+
 export {
   addProduct,
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getProductByCategory
 }
