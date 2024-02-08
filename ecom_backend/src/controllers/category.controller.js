@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { category } from "../models/category.model.js";
+import {billBoard} from "../models/billBoard.model.js";
 
 const createCategory = asyncHandler(async (req,resp)=> {
   // get data from frontend
@@ -99,10 +100,34 @@ const deleteCategory = asyncHandler(async(req,resp)=> {
   }
 })
 
+const getCategoryData = asyncHandler(async (req,resp) => {
+  try {
+    const categoryParams = req.params.category;
+    const categoryResponse = await category.findOne({ name: categoryParams });
+
+    if (!categoryResponse) {
+      return new ApiError(404, "Category data not found");
+    }
+
+    const billBoardResponse = await billBoard.findOne({ label: categoryResponse.content });
+
+    if (!billBoardResponse) {
+      return new ApiError(404, "Billboard data not found");
+    }
+
+    return resp.status(200).json(
+        new ApiResponse(200, billBoardResponse, "Billboard content")
+    );
+  } catch (error) {
+    throw new ApiError(404, error.message, "Category not found");
+  }
+})
+
 export {
   createCategory,
   getCategories,
   getCategoryById,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getCategoryData
 }

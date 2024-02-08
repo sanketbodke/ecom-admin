@@ -18,6 +18,7 @@ import colorRoute from "./routes/color.route.js";
 import sizeRoute from "./routes/size.route.js";
 import categoryRoute from "./routes/category.route.js";
 import productRoute from "./routes/product.route.js";
+import categoryBillBoardRoute from "./routes/categoryBillBoard.route.js";
 
 // routes declaration
 
@@ -27,5 +28,6 @@ app.use("/api/v1/colors/", colorRoute)
 app.use("/api/v1/sizes/", sizeRoute)
 app.use("/api/v1/categories/", categoryRoute)
 app.use("/api/v1/products/", productRoute)
+app.use("/api/v1/category/", categoryBillBoardRoute)
 
 export { app }
