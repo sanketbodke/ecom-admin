@@ -115,7 +115,7 @@ const Create: React.FC = () => {
         const getSizes = async () => {
             try {
                 const sizesData = await
-                    axios.get(`${API_BASE_URL}/api/v1/size`)
+                    axios.get(`${API_BASE_URL}/api/v1/sizes`)
                 setSizes(sizesData.data.data)
             } catch (error) {
                 console.log(error)
@@ -125,7 +125,7 @@ const Create: React.FC = () => {
         const getColors = async () => {
             try {
                 const colorsData = await
-                    axios.get(`${API_BASE_URL}/api/v1/color`)
+                    axios.get(`${API_BASE_URL}/api/v1/colors`)
                 setColors(colorsData.data.data)
             } catch (error) {
                 console.log(error)
@@ -221,7 +221,7 @@ const Create: React.FC = () => {
                                     </Select>
                                 </div>
 
-                                <div className="flex flex-col gap-4 border p-3 h-20 w-72">
+                                <div className="flex flex-col gap-4 border p-3 h-30 w-72">
                                     <div className="flex items-center gap-2">
                                         <Checkbox />
                                         <FormLabel className="text-gray-500">Featured</FormLabel>
