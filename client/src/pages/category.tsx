@@ -7,20 +7,33 @@ const Category: React.FC = () => {
     const { category } = useParams();
     const [categoryBillBoard, setCategoryBillBoard] = useState({});
     const [categoryProducts, setCategoryProducts] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    const [colors, setColors] = useState([]);
 
     useEffect(() => {
         const categoryResponse = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/category/${category}`);
             setCategoryBillBoard(response.data.data);
-            console.log(categoryBillBoard)
         };
 
         const getCategoryProducts = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/products/category/${category}`);
             setCategoryProducts(response.data.data);
         };
+
+        const getSizes = async () => {
+            const response = await axios.get(`${API_BASE_URL}/api/v1/sizes`);
+            setSizes(response.data.data)
+        }
+
+        const getColors = async () => {
+            const response = await axios.get(`${API_BASE_URL}/api/v1/colors`)
+            setColors(response.data.data)
+        }
         categoryResponse();
         getCategoryProducts();
+        getColors();
+        getSizes();
     }, [category]);
 
     return (
@@ -36,23 +49,22 @@ const Category: React.FC = () => {
                     <div>
                         <h3 className="border-b pb-4 mb-4 font-bold">Sizes</h3>
                         <div className="flex flex-wrap gap-2 text-sm">
-                            <p className="border px-2 py-0.5">Medium</p>
-                            <p className="border px-2 py-0.5">Small</p>
-                            <p className="border px-2 py-0.5">Large</p>
+                            {sizes.map((sizeObj, index) => (
+                                <p key={index} className="border px-2 py-0.5">{sizeObj.name}</p>
+                            ))}
                         </div>
+
                     </div>
                     <div>
                         <h3 className="border-b pb-4 my-4 font-bold">Colors</h3>
                         <div className="flex flex-wrap gap-2 text-sm">
-                            <p className="border px-2 py-0.5">Blue</p>
-                            <p className="border px-2 py-0.5">Red</p>
-                            <p className="border px-2 py-0.5">White</p>
-                            <p className="border px-2 py-0.5">Green</p>
-                            <p className="border px-2 py-0.5">Black</p>
+                            {colors.map((colorObj, index) => (
+                                <p key={index} className="border px-2 py-0.5">{colorObj.name}</p>
+                            ))}
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="flex gap-6 flex-wrap">
                     {categoryProducts.map((product, index) => (
                         <div
                             key={index}
