@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
                 <div className="flex justify-between items-center gap-4 text-sm">
                     {categories.length > 0 ? (
                         categories.map((category, key) => (
-                            <p key={key}>{category.name}</p>
+                        <Link key={key} to={category.name}>{category.name}</Link>
                         ))
                     ) : (
                         <p>No Categories</p>
