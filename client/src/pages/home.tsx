@@ -4,6 +4,11 @@ import API_BASE_URL from "../constant.ts";
 const Home:React.FC = () => {
     const [billBoard, setBillBoard] = useState({});
     const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [clickedIndex, setClickedIndex] = useState(null);
+
+    const handleCardClick = (index) => {
+        setClickedIndex(index);
+    };
     useEffect(() => {
         const getBillBoard = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/billBoard/65c61080c2bdd2584a209083`);
@@ -30,16 +35,17 @@ const Home:React.FC = () => {
             </div>
             <div className="flex gap-6 flex-wrap m-4">
                 {featuredProducts.map((product, index) => (
-                    product.featured ? (
-                        <div key={index} className="border text-sm p-2">
-                            <img src={product.productImage} alt="img" className="w-52 h-52 object-cover" />
-                            <p className="font-bold my-1">{product.name}</p>
-                            <p className="text-gray-500">{product.category}</p>
-                            <p className="font-bold mt-1.5">&#8377; {product.price}</p>
-                        </div>
-                    ) : (
-                        <></>
-                    )
+                    <div key={index} className={`border text-sm p-2 relative ${clickedIndex === index ? 'hover:shadow-lg' : 'hover:shadow'}`} onClick={() => handleCardClick(index)}>
+                        <img src={product.productImage} alt="img" className="w-52 h-52 object-cover" />
+                        <p className="font-bold my-1">{product.name}</p>
+                        <p className="text-gray-500">{product.category}</p>
+                        <p className="font-bold mt-1.5">&#8377; {product.price}</p>
+                        {clickedIndex === index && (
+                            <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center">
+
+                            </div>
+                        )}
+                    </div>
                 ))}
             </div>
         </div>

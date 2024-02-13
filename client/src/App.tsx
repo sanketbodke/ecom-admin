@@ -3,6 +3,9 @@ import Footer from "./components/Footer.tsx";
 import Home from "./pages/home.tsx";
 import {BrowserRouter as Router , Routes, Route, useLocation} from "react-router-dom";
 import category from "./pages/category.tsx";
+import Login from "./pages/auth/forms/login.tsx";
+import Register from "./pages/auth/forms/register.tsx";
+import authLayout from "./pages/auth/authLayout.tsx";
 function App() {
   return (
     <>
@@ -24,6 +27,10 @@ function AppRouter(){
             <Routes>
                 <Route path="/" Component={Home}></Route>
                 <Route path="/:category" Component={category}></Route>
+                <Route Component={authLayout}>
+                    <Route path="/login" Component={Login}></Route>
+                    <Route path="/register" Component={Register}></Route>
+                </Route>
             </Routes>
             {!isLoginPage && !isRegisterPage && <Footer />}
         </>
