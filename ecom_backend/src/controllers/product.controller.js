@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { product } from "../models/product.model.js";
+import { User } from "../models/user.model.js";
 
 const addProduct = asyncHandler(async (req,resp)=> {
   // get details from frontend
@@ -126,11 +127,42 @@ const getProductByCategory = asyncHandler(async (req,resp) => {
   }
 })
 
+const addToCartProduct = asyncHandler(async (req,resp) => {
+  const productId = req.body.productId;
+  const userId = req.body.userId;
+
+  console.log(userId)
+
+  try{
+    const productDetails = await product.findById(productId);
+    const userDetails = await User.findById(userId);
+
+    if(!productDetails){
+      return new ApiError(404,"product not found");
+    }
+
+    if(!userDetails){
+      return new ApiError(404,"user not found");
+    }
+
+    userDetails.cart.push(productDetails);
+    await userDetails.save({ validateBeforeSave : false})
+
+    return resp.status(200).json(
+        new ApiResponse(200, {cart: user.cart}, 'Product added to cart')
+    )
+
+  }catch (error){
+    throw new ApiError(400, error ,`failed to add`)
+  }
+})
+
 export {
   addProduct,
   getProducts,
   getProductById,
   updateProduct,
   deleteProduct,
-  getProductByCategory
+  getProductByCategory,
+  addToCartProduct,
 }
