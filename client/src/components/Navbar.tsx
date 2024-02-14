@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
                 </div>
             </div>
             <div className="flex justify-between items-center gap-4 text-sm">
-                <p className="flex items-center gap-1"><GrCart /> Cart</p>
+                <Link to={"/my-cart"} className="flex items-center gap-1"><GrCart /> Cart</Link>
                 <p className="flex items-center gap-1"><FaRegUser /> {userName}</p>
             </div>
         </nav>

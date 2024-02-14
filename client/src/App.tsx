@@ -7,6 +7,7 @@ import Login from "./pages/auth/forms/login.tsx";
 import Register from "./pages/auth/forms/register.tsx";
 import authLayout from "./pages/auth/authLayout.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
+import cart from "./pages/cart.tsx";
 function App() {
   return (
     <>
@@ -34,6 +35,7 @@ function AppRouter(){
                 <Route Component={PrivateRoute}>
                     <Route path="/" Component={Home}></Route>
                     <Route path="/:category" Component={category}></Route>
+                    <Route path="/my-cart" Component={cart}></Route>
                 </Route>
             </Routes>
             {!isLoginPage && !isRegisterPage && <Footer />}
