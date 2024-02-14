@@ -2,8 +2,13 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios"
 import API_BASE_URL from "../constant.ts";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
+import { GrCart } from "react-icons/gr";
+import { FaRegUser } from "react-icons/fa6";
 const Navbar: React.FC = () => {
     const [categories, setCategories] = useState({})
+    const { currentUser } = useSelector((state) => state.user);
+    const userName = currentUser?.data?.data?.user?.username || "";
     useEffect(() => {
         const getCategories = async () => {
             try{
@@ -30,8 +35,8 @@ const Navbar: React.FC = () => {
                 </div>
             </div>
             <div className="flex justify-between items-center gap-4 text-sm">
-                <p>Cart</p>
-                <p>UserName</p>
+                <p className="flex items-center gap-1"><GrCart /> Cart</p>
+                <p className="flex items-center gap-1"><FaRegUser /> {userName}</p>
             </div>
         </nav>
 
