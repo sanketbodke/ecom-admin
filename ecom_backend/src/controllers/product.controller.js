@@ -131,8 +131,6 @@ const addToCartProduct = asyncHandler(async (req,resp) => {
   const productId = req.body.productId;
   const userId = req.body.userId;
 
-  console.log(userId)
-
   try{
     const productDetails = await product.findById(productId);
     const userDetails = await User.findById(userId);
@@ -149,7 +147,7 @@ const addToCartProduct = asyncHandler(async (req,resp) => {
     await userDetails.save({ validateBeforeSave : false})
 
     return resp.status(200).json(
-        new ApiResponse(200, {cart: user.cart}, 'Product added to cart')
+        new ApiResponse(200, userDetails, 'Product added to cart')
     )
 
   }catch (error){
