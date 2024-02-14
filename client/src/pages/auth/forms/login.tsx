@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -10,15 +10,22 @@ import {
     FormItem,
 } from "../../../components/ui/form.tsx"
 import { Input } from "../../../components/ui/input.tsx"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import API_BASE_URL from "../../../constant.ts";
+import { logInStart, logInSuccess ,logInFailure } from "../../../redux/user/userSlice";
+import {useDispatch, useSelector} from "react-redux"
 
 const formSchema = z.object({
     username: z.string(),
     password: z.string(),
 })
 const Login:React.FC = () => {
+    const dispatch = useDispatch();
+    const {loading, error} = useSelector((state) => state.user)
+    const [_, setCookies] = useCookies(["access_token"]);
+    const navigate = useNavigate();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -28,8 +35,16 @@ const Login:React.FC = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // await axios.post(`${API_BASE_URL}/api/v1/login`, values)
-        console.log(values)
+        try{
+            dispatch(logInStart())
+            const response = await axios.post(`${API_BASE_URL}/api/v1/users/login`, values)
+            dispatch(logInSuccess(response))
+            setCookies("access_token", response.data.data.accessToken);
+            navigate("/")
+        }catch (error){
+            dispatch(logInFailure(error))
+            console.log(error)
+        }
     }
     return (
         <>
