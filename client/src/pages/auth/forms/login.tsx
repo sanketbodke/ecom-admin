@@ -1,10 +1,75 @@
-import React from 'react';
+import React,{useState} from 'react';
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Button } from "../../../components/ui/button.tsx"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+} from "../../../components/ui/form.tsx"
+import { Input } from "../../../components/ui/input.tsx"
+import {Link} from "react-router-dom";
+import axios from "axios";
+import API_BASE_URL from "../../../constant.ts";
 
-const Login = () => {
+const formSchema = z.object({
+    username: z.string(),
+    password: z.string(),
+})
+const Login:React.FC = () => {
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+    })
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        // await axios.post(`${API_BASE_URL}/api/v1/login`, values)
+        console.log(values)
+    }
     return (
-        <div>
-            login
-        </div>
+        <>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="w-96 flex flex-col gap-8"
+                >
+                    <FormField
+                        control={form.control}
+                        name="username"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input placeholder={"username"} {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input placeholder={"password"} {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <Button
+                        type="submit"
+                        className="w-24"
+                    >
+                        Login
+                    </Button>
+                    <Link className={"text-sm"} to={"/register"}>Don't have an account ? Register</Link>
+                </form>
+            </Form>
+        </>
     );
 };
 

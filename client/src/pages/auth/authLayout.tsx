@@ -8,13 +8,13 @@ const AuthLayout:React.FC = () => {
             {isAuthenticated ? (
                 <Navigate to="/" />
             ): (
-                <div className={"flex items-center justify-between h-[100vh]"}>
+                <div className={"flex items-center justify-evenly h-[100vh]"}>
                     <section>
                         <Outlet />
                     </section>
                     <img
                         className={"w-5/12"}
-                        src={"https://i.postimg.cc/mkbvM0yp/Mobile-login-amico.png"}
+                        src={"https://i.postimg.cc/RV6NrBYt/Mobile-login-amico-1.png"}
                         alt={"img"}
                     />
                 </div>
