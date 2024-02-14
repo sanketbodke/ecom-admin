@@ -18,7 +18,6 @@ const Home:React.FC = () => {
         const getFeaturedProducts = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/products`)
             setFeaturedProducts(response.data.data);
-            console.log(response.data.data)
         }
 
         getBillBoard()

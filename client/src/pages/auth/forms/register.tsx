@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -10,7 +10,7 @@ import {
     FormItem,
 } from "../../../components/ui/form.tsx"
 import { Input } from "../../../components/ui/input.tsx"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../../../constant.ts";
 
@@ -21,6 +21,7 @@ const formSchema = z.object({
     password: z.string(),
 })
 const Register:React.FC = () => {
+    const navigate = useNavigate();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -32,8 +33,12 @@ const Register:React.FC = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        //await axios.post(`${API_BASE_URL}/api/v1/register`, values)
-        console.log(values)
+        try{
+            await axios.post(`${API_BASE_URL}/api/v1/users/register`, values)
+            navigate("/login")
+        }catch (error){
+            console.log(error)
+        }
     }
     return (
         <>

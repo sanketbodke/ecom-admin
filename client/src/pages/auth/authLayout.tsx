@@ -1,8 +1,11 @@
 import React from 'react';
 import { Outlet, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const AuthLayout:React.FC = () => {
-    // const currentUser = false;
-    const isAuthenticated = false;
+    const { currentUser } = useSelector((state) => state.user);
+    const userID = currentUser && currentUser.data.data && currentUser.data.data.user ? currentUser.data.data.user._id : null;
+
+    const isAuthenticated = !!userID;
     return (
         <>
             {isAuthenticated ? (
