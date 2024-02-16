@@ -1,14 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import API_BASE_URL from "../constant.ts";
-const Home:React.FC = () => {
+import { GrCart } from "react-icons/gr";
+
+const Home: React.FC = () => {
     const [billBoard, setBillBoard] = useState({});
     const [featuredProducts, setFeaturedProducts] = useState([]);
-    const [clickedIndex, setClickedIndex] = useState(null);
+    const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
-    const handleCardClick = (index) => {
+    const handleCardClick = (index: number) => {
         setClickedIndex(index);
     };
+
     useEffect(() => {
         const getBillBoard = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/billBoard/65c61080c2bdd2584a209083`);
@@ -20,9 +23,21 @@ const Home:React.FC = () => {
             setFeaturedProducts(response.data.data);
         }
 
-        getBillBoard()
-        getFeaturedProducts()
+        getBillBoard();
+        getFeaturedProducts();
     }, []);
+
+    const handleAddToCart = async (productId: number) => {
+        const cartItem = {
+            productId: productId,
+            userId: `65a9318f91a13940fb7f208a`
+        };
+        await axios.post(
+            `${API_BASE_URL}/api/v1/products/add-to-cart`,
+            cartItem
+        )
+    }
+
     return (
         <div>
             <div className="relative flex justify-center m-4">
@@ -41,7 +56,7 @@ const Home:React.FC = () => {
                         <p className="font-bold mt-1.5">&#8377; {product.price}</p>
                         {clickedIndex === index && (
                             <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center">
-
+                                <GrCart onClick={() => handleAddToCart(product._id)} className={"text-white text-2xl"} />
                             </div>
                         )}
                     </div>
