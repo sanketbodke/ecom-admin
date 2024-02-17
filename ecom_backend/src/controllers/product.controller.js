@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { product } from "../models/product.model.js";
 import { User } from "../models/user.model.js";
 
+// add product
 const addProduct = asyncHandler(async (req,resp)=> {
   // get details from frontend
 
@@ -46,6 +47,8 @@ const addProduct = asyncHandler(async (req,resp)=> {
   )
 })
 
+// get products
+
 const getProducts = asyncHandler(async (req,resp)=> {
   try{
     const productsResponse = await product.find({});
@@ -59,6 +62,8 @@ const getProducts = asyncHandler(async (req,resp)=> {
     throw new ApiError(404, error, "Products not found")
   }
 })
+
+// get product by id
 
 const getProductById = asyncHandler(async (req,resp)=> {
   try{
@@ -74,6 +79,8 @@ const getProductById = asyncHandler(async (req,resp)=> {
     throw new ApiError(404, error, "Product not found")
   }
 })
+
+// update product
 
 const updateProduct = asyncHandler(async (req,resp)=> {
   try{
@@ -94,6 +101,8 @@ const updateProduct = asyncHandler(async (req,resp)=> {
   }
 })
 
+// delete product
+
 const deleteProduct = asyncHandler(async(req,resp)=> {
   try{
     const id = req.params.id;
@@ -108,6 +117,8 @@ const deleteProduct = asyncHandler(async(req,resp)=> {
     throw new ApiError(404,error, "Product not found")
   }
 })
+
+// get product data by category
 
 const getProductByCategory = asyncHandler(async (req,resp) => {
   try{
@@ -126,6 +137,8 @@ const getProductByCategory = asyncHandler(async (req,resp) => {
     throw new ApiError(404, error, "Product not found")
   }
 })
+
+// add to cart
 
 const addToCartProduct = asyncHandler(async (req,resp) => {
   const productId = req.body.productId;
@@ -155,6 +168,28 @@ const addToCartProduct = asyncHandler(async (req,resp) => {
   }
 })
 
+// get cart products
+
+const getCartProducts = asyncHandler(async (req,resp) => {
+  const user = await User.findById(req.params.id);
+
+  if(!user){
+    return new ApiError(404, "User not found")
+  }
+
+  const cartProducts = await product.find({
+    _id: {$in: user.cart},
+  });
+
+  if(!cartProducts){
+    return new ApiError(404, "cart is empty")
+  }
+
+  return resp.status(200).json(
+      new ApiResponse(200, cartProducts, "Cart Products")
+  )
+})
+
 export {
   addProduct,
   getProducts,
@@ -163,4 +198,5 @@ export {
   deleteProduct,
   getProductByCategory,
   addToCartProduct,
+  getCartProducts
 }
