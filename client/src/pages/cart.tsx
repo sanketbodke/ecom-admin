@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import API_BASE_URL from "../constant.ts";
 import {Button} from "../components/ui/button.tsx";
+import Spinner from "../components/ui/spinner.tsx";
 
 const Cart: React.FC = () => {
     const { currentUser } = useSelector((state) => state.user);
     const userId = currentUser?.data?.data?.user?._id || ""
     const [cartProducts, setCartProducts] = useState([]);
     const subtotal = cartProducts.reduce((accumulator, product) => accumulator + parseFloat(product.price), 0);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const getProducts = async () => {
             try {
@@ -22,8 +24,10 @@ const Cart: React.FC = () => {
     }, []);
 
     const handlePayment = async () => {
+        setLoading(true)
         const response = await axios.post(`${API_BASE_URL}/api/v1/payment`, { items: cartProducts });
         window.location.href = response.data.url;
+        setLoading(false)
     }
 
 
@@ -49,10 +53,17 @@ const Cart: React.FC = () => {
             </div>
             <div className={"border w-80 h-fit p-2 basis-[23%]"}>
                 <p>Subtotal ({cartProducts.length} item{cartProducts.length !== 1 ? 's' : ''}) &#8377;{subtotal}</p>
-                <Button
-                    className={"mt-4"}
-                    onClick={handlePayment}
-                >Proceed to Buy</Button>
+                {loading ? (
+                    <Button
+                        className={"mt-4"}
+                        onClick={handlePayment}
+                    >Proceed to Buy <Spinner /> </Button>
+                ): (
+                    <Button
+                        className={"mt-4"}
+                        onClick={handlePayment}
+                    >Proceed to Buy </Button>
+                )}
             </div>
         </div>
     );
