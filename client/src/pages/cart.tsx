@@ -21,6 +21,12 @@ const Cart: React.FC = () => {
         getProducts();
     }, []);
 
+    const handlePayment = async () => {
+        const response = await axios.post(`${API_BASE_URL}/api/v1/payment`, { items: cartProducts });
+        window.location.href = response.data.url;
+    }
+
+
     return (
         <div className={"flex justify-between p-4 text-sm"}>
             <div className={"flex flex-col gap-6 basis-[75%]"}>
@@ -45,6 +51,7 @@ const Cart: React.FC = () => {
                 <p>Subtotal ({cartProducts.length} item{cartProducts.length !== 1 ? 's' : ''}) &#8377;{subtotal}</p>
                 <Button
                     className={"mt-4"}
+                    onClick={handlePayment}
                 >Proceed to Buy</Button>
             </div>
         </div>

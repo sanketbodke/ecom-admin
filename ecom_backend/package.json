@@ -23,7 +23,7 @@
     "mongoose-aggregate-paginate-v2": "^1.0.6",
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",
-    "stripe": "^14.16.0"
+    "stripe": "^14.17.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
