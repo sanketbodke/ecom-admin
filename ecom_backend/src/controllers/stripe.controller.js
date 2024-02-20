@@ -17,7 +17,7 @@ const payment = asyncHandler(async (req, resp) => {
                         },
                         unit_amount: item.price * 100
                     },
-                    quantity: 1
+                    quantity: item.quantity
                 };
             }),
             success_url: `${process.env.CLIENT_URL}`,

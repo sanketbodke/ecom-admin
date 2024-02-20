@@ -28,6 +28,10 @@ const productSchema = new Schema({
     type: String,
     required: true
   },
+  quantity:{
+    type: Number,
+    default: 1
+  }
 }, {timestamps: true})
 
 export const product = mongoose.model("product", productSchema)
