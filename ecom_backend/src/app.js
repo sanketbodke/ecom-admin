@@ -19,6 +19,7 @@ import sizeRoute from "./routes/size.route.js";
 import categoryRoute from "./routes/category.route.js";
 import productRoute from "./routes/product.route.js";
 import categoryBillBoardRoute from "./routes/categoryBillBoard.route.js";
+import stripeRoute from "./routes/stripe.route.js";
 
 // routes declaration
 
@@ -29,5 +30,6 @@ app.use("/api/v1/sizes/", sizeRoute)
 app.use("/api/v1/categories/", categoryRoute)
 app.use("/api/v1/products/", productRoute)
 app.use("/api/v1/category/", categoryBillBoardRoute)
+app.use("/api/v1/payment", stripeRoute)
 
 export { app }
