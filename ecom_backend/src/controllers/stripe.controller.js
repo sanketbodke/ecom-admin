@@ -1,6 +1,7 @@
 import stripe from "stripe";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
+import {ApiResponse} from "../utils/ApiResponse.js";
 
 const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
 const payment = asyncHandler(async (req, resp) => {
@@ -29,4 +30,23 @@ const payment = asyncHandler(async (req, resp) => {
     }
 });
 
-export { payment };
+const getAllPayments = asyncHandler(async (req,resp) => {
+    try{
+        const payments = await stripeInstance.paymentIntents.list();
+
+        if(!payments){
+            return new ApiError(400, "Payments not found!")
+        }
+        return resp.status(200).json(
+            new ApiResponse(200, payments, "All Payments")
+        )
+    }catch (error){
+        console.log(error)
+        throw new ApiError(400, error, "Error to fetch payments")
+    }
+})
+
+export {
+    payment,
+    getAllPayments
+};
