@@ -9,8 +9,9 @@ const Cart: React.FC = () => {
     const { currentUser } = useSelector((state) => state.user);
     const userId = currentUser?.data?.data?.user?._id || ""
     const [cartProducts, setCartProducts] = useState([]);
-    const subtotal = cartProducts.reduce((accumulator, product) => accumulator + parseFloat(product.price), 0);
+    const [subtotal, setSubTotal] = useState(0)
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const getProducts = async () => {
             try {
@@ -20,8 +21,17 @@ const Cart: React.FC = () => {
                 console.error('Error fetching cart products:', error);
             }
         };
+
         getProducts();
     }, []);
+
+    useEffect(() => {
+        const handleSubtotal = () => {
+            const subTotal = cartProducts.reduce((accumulator, product) => accumulator + parseFloat(String(product.price * product.quantity)), 0);
+            setSubTotal(subTotal)
+        }
+        handleSubtotal();
+    }, [cartProducts]);
 
     const handlePayment = async () => {
         setLoading(true)
@@ -30,6 +40,26 @@ const Cart: React.FC = () => {
         setLoading(false)
     }
 
+    const handleQuantityChange = async (e, id: number) => {
+        try {
+            await axios.put(
+                `${API_BASE_URL}/api/v1/products/${id}/update`,
+                { quantity: e.target.value }
+            );
+            const updatedCartProducts = cartProducts.map(product => {
+                if (product._id === id) {
+                    return {
+                        ...product,
+                        quantity: e.target.value
+                    };
+                }
+                return product;
+            });
+            setCartProducts(updatedCartProducts);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div className={"flex justify-between p-4 text-sm"}>
@@ -46,6 +76,19 @@ const Cart: React.FC = () => {
                             <p>Size : {product.size}</p>
                             <p>Color : {product.color}</p>
                             <p>Price: &#8377; {product.price}</p>
+                            <div className={'flex items-center gap-1'}>
+                                <p>Qty: </p>
+                                <select onChange={(e) => handleQuantityChange(e, product._id)}>
+                                    {[1, 2, 3, 4, 5].map((number) => (
+                                        <option
+                                            key={number}
+                                            value={number}
+                                            selected={number === product.quantity}>
+                                            {number}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             <p className={"text-green-800 cursor-pointer"}>Delete</p>
                         </div>
                     </div>
@@ -67,7 +110,6 @@ const Cart: React.FC = () => {
             </div>
         </div>
     );
-
 };
 
 export default Cart;
