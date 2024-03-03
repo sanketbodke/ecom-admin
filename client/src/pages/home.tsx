@@ -2,14 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import API_BASE_URL from "../constant.ts";
 import { GrCart } from "react-icons/gr";
+import { MdOutlineZoomOutMap } from "react-icons/md";
+import { message } from "antd";
+import CustomModal from "../components/ui/modal.tsx";
 
 const Home: React.FC = () => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [billBoard, setBillBoard] = useState({});
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+    const [messageApi, contextHolder] = message.useMessage();
+    const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
     const handleCardClick = (index: number) => {
         setClickedIndex(index);
+        setSelectedProduct(featuredProducts[index]);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
     };
 
     useEffect(() => {
@@ -28,21 +39,38 @@ const Home: React.FC = () => {
     }, []);
 
     const handleAddToCart = async (productId: number) => {
-        const cartItem = {
-            productId: productId,
-            userId: `65a9318f91a13940fb7f208a`
-        };
-        await axios.post(
-            `${API_BASE_URL}/api/v1/products/add-to-cart`,
-            cartItem
-        )
+        try {
+            const cartItem = {
+                productId: productId,
+                userId: `65a9318f91a13940fb7f208a` // to do
+            };
+            await axios.post(
+                `${API_BASE_URL}/api/v1/products/add-to-cart`,
+                cartItem
+            )
+            messageApi.open({
+                type: 'success',
+                content: 'Product added to cart',
+            });
+        } catch (error) {
+            console.log(error)
+            messageApi.open({
+                type: 'error',
+                content: 'Failed to add',
+            });
+        }
+    }
+
+    const handleZoomOutClick = () => {
+        setIsModalVisible(true);
     }
 
     return (
         <div>
+            {contextHolder}
             <div className="relative flex justify-center m-4">
                 <img src={billBoard.coverImage} className="h-[330px] w-[100%] object-cover rounded-[10px]"
-                     alt="Category Cover"/>
+                     alt="Category Cover" />
                 <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 px-4 py-2 rounded">
                     {billBoard.label}
                 </p>
@@ -55,13 +83,21 @@ const Home: React.FC = () => {
                         <p className="text-gray-500">{product.category}</p>
                         <p className="font-bold mt-1.5">&#8377; {product.price}</p>
                         {clickedIndex === index && (
-                            <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center">
-                                <GrCart onClick={() => handleAddToCart(product._id)} className={"text-white text-2xl"} />
+                            <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center gap-2 cursor-pointer">
+                                <MdOutlineZoomOutMap onClick={handleZoomOutClick} className={"text-2xl bg-white text-black rounded p-1"} />
+                                <GrCart onClick={() => handleAddToCart(product._id)} className={"text-2xl bg-white text-black rounded p-1"} />
                             </div>
                         )}
                     </div>
                 ))}
             </div>
+            {selectedProduct && (
+                <CustomModal
+                    visible={isModalVisible}
+                    cancel={handleCancel}
+                    productDetails={selectedProduct}
+                />
+            )}
         </div>
     );
 };
