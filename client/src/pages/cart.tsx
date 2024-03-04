@@ -34,10 +34,15 @@ const Cart: React.FC = () => {
     }, [cartProducts]);
 
     const handlePayment = async () => {
-        setLoading(true)
-        const response = await axios.post(`${API_BASE_URL}/api/v1/payment`, { items: cartProducts });
-        window.location.href = response.data.url;
-        setLoading(false)
+        try{
+            setLoading(true)
+            const response = await axios.post(`${API_BASE_URL}/api/v1/payment`, { items: cartProducts });
+            window.location.href = response.data.url;
+            setLoading(false)
+        } catch(error) {
+            console.log(error)
+            setLoading(false)
+        }
     }
 
     const handleQuantityChange = async (e, id: number) => {

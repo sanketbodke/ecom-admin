@@ -47,9 +47,6 @@ const CustomModal: React.FC<ModalProps> = ({
 
     return (
         <>
-            <Button type="primary" onClick={cancel}>
-                Open Modal with async logic
-            </Button>
             <Modal
                 title={productDetails.name}
                 open={visible}

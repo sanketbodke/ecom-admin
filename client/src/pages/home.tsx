@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import API_BASE_URL from "../constant.ts";
-import { GrCart } from "react-icons/gr";
 import { MdOutlineZoomOutMap } from "react-icons/md";
-import { message } from "antd";
 import CustomModal from "../components/ui/modal.tsx";
+import AddToCart from "../components/addToCart.tsx";
 
 const Home: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [billBoard, setBillBoard] = useState({});
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-    const [messageApi, contextHolder] = message.useMessage();
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
     const handleCardClick = (index: number) => {
@@ -38,36 +36,12 @@ const Home: React.FC = () => {
         getFeaturedProducts();
     }, []);
 
-    const handleAddToCart = async (productId: number) => {
-        try {
-            const cartItem = {
-                productId: productId,
-                userId: `65a9318f91a13940fb7f208a` // to do
-            };
-            await axios.post(
-                `${API_BASE_URL}/api/v1/products/add-to-cart`,
-                cartItem
-            )
-            messageApi.open({
-                type: 'success',
-                content: 'Product added to cart',
-            });
-        } catch (error) {
-            console.log(error)
-            messageApi.open({
-                type: 'error',
-                content: 'Failed to add',
-            });
-        }
-    }
-
     const handleZoomOutClick = () => {
         setIsModalVisible(true);
     }
 
     return (
         <div>
-            {contextHolder}
             <div className="relative flex justify-center m-4">
                 <img src={billBoard.coverImage} className="h-[330px] w-[100%] object-cover rounded-[10px]"
                      alt="Category Cover" />
@@ -85,7 +59,9 @@ const Home: React.FC = () => {
                         {clickedIndex === index && (
                             <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center gap-2 cursor-pointer">
                                 <MdOutlineZoomOutMap onClick={handleZoomOutClick} className={"text-2xl bg-white text-black rounded p-1"} />
-                                <GrCart onClick={() => handleAddToCart(product._id)} className={"text-2xl bg-white text-black rounded p-1"} />
+                                <AddToCart
+                                    product={selectedProduct}
+                                />
                             </div>
                         )}
                     </div>
