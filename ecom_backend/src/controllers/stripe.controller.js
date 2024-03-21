@@ -37,6 +37,9 @@ const getAllPayments = asyncHandler(async (req,resp) => {
         if(!payments){
             return new ApiError(400, "Payments not found!")
         }
+
+        console.log(payments)
+
         return resp.status(200).json(
             new ApiResponse(200, payments, "All Payments")
         )
@@ -46,7 +49,8 @@ const getAllPayments = asyncHandler(async (req,resp) => {
     }
 })
 
+
 export {
     payment,
-    getAllPayments
+    getAllPayments,
 };
