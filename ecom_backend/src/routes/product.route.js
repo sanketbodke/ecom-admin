@@ -1,11 +1,23 @@
 import { Router } from "express";
-import { addProduct, getProducts, getProductById, updateProduct, deleteProduct, getProductByCategory, addToCartProduct, getCartProducts, getProductBySize } from "../controllers/product.controller.js";
+import {
+    addProduct,
+    getProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct,
+    getProductByCategory,
+    addToCartProduct,
+    getCartProducts,
+    getProductBySize,
+    getProductByColor
+} from "../controllers/product.controller.js";
 
 const router = Router()
 
 router.route("/create").post(addProduct);
 router.route("/").get(getProducts);
-router.route("/product").get(getProductBySize);
+router.route("/product/color/:color").get(getProductByColor);
+router.route("/product/size/:size").get(getProductBySize);
 router.route("/:id").get(getProductById);
 router.route("/:id/update").put(updateProduct);
 router.route("/:id/delete").delete(deleteProduct);

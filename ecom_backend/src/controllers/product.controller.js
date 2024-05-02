@@ -192,14 +192,27 @@ const getCartProducts = asyncHandler(async (req,resp) => {
 
 const getProductBySize = asyncHandler(async (req, resp) => {
   try {
-    const reqQuery = req.query;
-    const conditions = {};
+    const reqQuery = req.params.size;
 
-    for (const key in reqQuery) {
-      conditions[key] = reqQuery[key];
+    const products = await product.find({size: reqQuery});
+
+    if (!products || products.length === 0) {
+      return resp.status(404).json(new ApiResponse(404, null, "Product not found"));
     }
 
-    const products = await product.find(conditions);
+    return resp.status(200).json(new ApiResponse(200, products, "Products found"));
+
+  } catch (error) {
+    console.log(error);
+    return resp.status(500).json(new ApiResponse(500, null, "Internal server error"));
+  }
+});
+
+const getProductByColor = asyncHandler(async (req, resp) => {
+  try {
+    const reqQuery = req.params.color;
+
+    const products = await product.find({color: reqQuery});
 
     if (!products || products.length === 0) {
       return resp.status(404).json(new ApiResponse(404, null, "Product not found"));
@@ -224,4 +237,5 @@ export {
   addToCartProduct,
   getCartProducts,
   getProductBySize,
+  getProductByColor
 }
