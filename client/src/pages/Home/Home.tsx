@@ -1,44 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from "axios";
-import API_BASE_URL from "../constant.ts";
 import { MdOutlineZoomOutMap } from "react-icons/md";
-import CustomModal from "../components/ui/modal.tsx";
-import AddToCart from "../components/addToCart.tsx";
+import CustomModal from "../../components/ui/modal.tsx";
+import AddToCart from "../../components/addToCart.tsx";
+import HomeLogic from "./HomeLogic.tsx";
 
-const Home: React.FC = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [billBoard, setBillBoard] = useState({});
-    const [featuredProducts, setFeaturedProducts] = useState([]);
-    const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-    const [selectedProduct, setSelectedProduct] = useState<any>(null);
-
-    const handleCardClick = (index: number) => {
-        setClickedIndex(index);
-        setSelectedProduct(featuredProducts[index]);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-
-    useEffect(() => {
-        const getBillBoard = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/v1/billBoard/65c61080c2bdd2584a209083`);
-            setBillBoard(response.data.data);
-        }
-
-        const getFeaturedProducts = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/v1/products`)
-            setFeaturedProducts(response.data.data);
-        }
-
-        getBillBoard();
-        getFeaturedProducts();
-    }, []);
-
-    const handleZoomOutClick = () => {
-        setIsModalVisible(true);
-    }
+const Home= () => {
+    const {
+        isModalVisible,
+        billBoard,
+        featuredProducts,
+        clickedIndex,
+        selectedProduct,
+        handleCardClick,
+        handleCancel,
+        handleZoomOutClick,
+    } = HomeLogic();
 
     return (
         <div>

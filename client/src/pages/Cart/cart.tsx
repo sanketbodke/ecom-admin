@@ -1,71 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
-import axios from "axios";
-import API_BASE_URL from "../constant.ts";
-import {Button} from "../components/ui/button.tsx";
-import Spinner from "../components/ui/spinner.tsx";
+import React from 'react';
+import {Button} from "../../components/ui/button.tsx";
+import Spinner from "../../components/ui/spinner.tsx";
+import cartLogic from "./cartLogic.tsx";
 
 const Cart: React.FC = () => {
-    const { currentUser } = useSelector((state) => state.user);
-    const userId = currentUser?.data?.data?.user?._id || ""
-    const [cartProducts, setCartProducts] = useState([]);
-    const [subtotal, setSubTotal] = useState(0)
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const cartProducts = await axios.get(`${API_BASE_URL}/api/v1/products/cart/${userId}`)
-                setCartProducts(cartProducts.data.data)
-            } catch (error) {
-                console.error('Error fetching cart products:', error);
-            }
-        };
-
-        getProducts();
-    }, []);
-
-    useEffect(() => {
-        const handleSubtotal = () => {
-            const subTotal = cartProducts.reduce((accumulator, product) => accumulator + parseFloat(String(product.price * product.quantity)), 0);
-            setSubTotal(subTotal)
-        }
-        handleSubtotal();
-    }, [cartProducts]);
-
-    const handlePayment = async () => {
-        try{
-            setLoading(true)
-            const response = await axios.post(`${API_BASE_URL}/api/v1/payment`, { items: cartProducts });
-            window.location.href = response.data.url;
-            setLoading(false)
-        } catch(error) {
-            console.log(error)
-            setLoading(false)
-        }
-    }
-
-    const handleQuantityChange = async (e, id: number) => {
-        try {
-            await axios.put(
-                `${API_BASE_URL}/api/v1/products/${id}/update`,
-                { quantity: e.target.value }
-            );
-            const updatedCartProducts = cartProducts.map(product => {
-                if (product._id === id) {
-                    return {
-                        ...product,
-                        quantity: e.target.value
-                    };
-                }
-                return product;
-            });
-            setCartProducts(updatedCartProducts);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
+    const {
+        cartProducts,
+        subtotal,
+        loading,
+        handlePayment,
+        handleQuantityChange
+    } = cartLogic()
     return (
         <div className={"flex justify-between p-4 text-sm"}>
             <div className={"flex flex-col gap-6 basis-[75%]"}>

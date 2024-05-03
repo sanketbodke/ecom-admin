@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge } from "@/components/ui/badge"
-import {Input} from "@/components/ui/input"
 import { IoCopyOutline } from "react-icons/io5";
 
 interface ApiProps {

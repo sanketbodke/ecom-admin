@@ -1,13 +1,14 @@
 import Navbar from "./components/Navbar.tsx";
 import Footer from "./components/Footer.tsx";
-import Home from "./pages/home.tsx";
+import Home from "./pages/Home/Home.tsx";
 import {BrowserRouter as Router , Routes, Route, useLocation} from "react-router-dom";
-import category from "./pages/category.tsx";
+import category from "./pages/category/category.tsx";
 import Login from "./pages/auth/forms/login.tsx";
 import Register from "./pages/auth/forms/register.tsx";
 import authLayout from "./pages/auth/authLayout.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
-import cart from "./pages/cart.tsx";
+import cart from "./pages/Cart/cart.tsx";
+import userAccount from "./pages/Account/userAccount.tsx";
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function AppRouter(){
                     <Route path="/" Component={Home}></Route>
                     <Route path="/:category" Component={category}></Route>
                     <Route path="/my-cart" Component={cart}></Route>
+                    <Route path="/my-account" Component={userAccount}></Route>
                 </Route>
             </Routes>
             {!isLoginPage && !isRegisterPage && <Footer />}

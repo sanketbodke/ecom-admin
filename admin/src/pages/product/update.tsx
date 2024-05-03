@@ -57,7 +57,7 @@ const Update:React.FC = () => {
                     subtitle="Update a Product"
                 />
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={"flex flex-col gap-4"}>
                 <Input
                     type="text"
                     name="name"
@@ -114,7 +114,7 @@ const Update:React.FC = () => {
 
                 <img src={products.productImage} alt="product image" className="w-72 h-60 object-cover"/>
 
-                <Button type="submit">Update</Button>
+                <Button type="submit" className={"w-24"}>Update</Button>
             </form>
         </div>
     );

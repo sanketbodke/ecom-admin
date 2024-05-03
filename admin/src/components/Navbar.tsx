@@ -9,14 +9,11 @@ const Navbar: React.FC = () => {
                 <h1>store name</h1>
             </div>
             <div className="menuItems flex gap-10 text-sm">
-                <Link to="/overview">Overview</Link>
-                <Link to="/billBoards">BillBoards</Link>
+                <Link to="/">BillBoards</Link>
                 <Link to="/categories">Categories</Link>
                 <Link to="/sizes">Sizes</Link>
                 <Link to="/colors">Colors</Link>
                 <Link to="/products">Products</Link>
-                <Link to="/orders">Orders</Link>
-                <Link to="/settings">Settings</Link>
             </div>
             <div className="userProfile w-10 h-10">
                 <Profile />

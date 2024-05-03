@@ -3,8 +3,8 @@ import authLayout from "@/pages/auth/authLayout.tsx";
 import login from "@/pages/auth/forms/login.tsx";
 import register from "@/pages/auth/forms/register.tsx";
 import privateRoute from "@/components/PrivateRoute.tsx";
-import home from "@/pages/home.tsx"
 import Navbar from "@/components/Navbar.tsx";
+import Footer from "@/components/Footer.tsx";
 // billBoard
 import billBoard from "@/pages/billBoard/billBoard.tsx";
 import createBillBoard from "@/pages/billBoard/create.tsx";
@@ -28,6 +28,9 @@ import updateColor from "@/pages/color/update.tsx";
 import product from "@/pages/product/product.tsx";
 import createProduct from "@/pages/product/create.tsx"
 import updateProduct from "@/pages/product/update.tsx"
+
+// orders
+import Order from "@/pages/orders/order.tsx";
 
 const App = () => {
     return (
@@ -53,8 +56,7 @@ function AppRouter(){
                     <Route path="/register" Component={register}></Route>
                 </Route>
                 <Route Component={privateRoute}>
-                    <Route index Component={home}></Route>
-                    <Route path="/billBoards" Component={billBoard}></Route>
+                    <Route path="/" Component={billBoard}></Route>
                     <Route path="/billBoards/create" Component={createBillBoard}></Route>
                     <Route path="/billBoards/:id/update" Component={update}></Route>
 
@@ -73,8 +75,11 @@ function AppRouter(){
                     <Route path="/products" Component={product}></Route>
                     <Route path="/product/create" Component={createProduct}></Route>
                     <Route path="/products/:id/update" Component={updateProduct}></Route>
+
+                    <Route path="/orders" Component={Order}></Route>
                 </Route>
             </Routes>
+            {!isLoginPage && !isRegisterPage && <Footer />}
         </>
     )
 }
